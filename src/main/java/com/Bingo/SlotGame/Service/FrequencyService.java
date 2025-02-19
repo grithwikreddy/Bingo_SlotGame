@@ -15,4 +15,7 @@ public class FrequencyService {
     public List<Map<String, Object>> getFrequencies(){
         return frequencyDAO.getAllFrequencies();
     }
+    public List<Map<String, Object>> getLineFrequencies(){
+        return frequencyDAO.getAllLineFrequencies();
+    }
 }

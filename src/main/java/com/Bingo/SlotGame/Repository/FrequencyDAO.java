@@ -29,4 +29,8 @@ public class FrequencyDAO {
         sql="update gamecount set game_count=game_count+1";
         jdbcTemplate.update(sql);
     }
+    public List<Map<String, Object>> getAllLineFrequencies() {
+        String query = "SELECT line,(count/(select game_count from gamecount))*100 as LineFrequencyPercentage  FROM linefrequency";
+        return jdbcTemplate.queryForList(query);
+    }
 }

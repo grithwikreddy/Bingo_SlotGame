@@ -76,5 +76,9 @@ public class GameController {
     public List<Map<String, Object>> getFrequencies() {
         return frequencyService.getFrequencies();
     }
+    @GetMapping("/linefrequency")
+    public List<Map<String, Object>> getLineFrequencies() {
+        return frequencyService.getLineFrequencies();
+    }
 }
 
