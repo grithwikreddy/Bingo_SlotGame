@@ -4,6 +4,7 @@ import com.Bingo.SlotGame.Entity.Bet;
 import com.Bingo.SlotGame.Entity.Game;
 import com.Bingo.SlotGame.Entity.Node;
 import com.Bingo.SlotGame.Entity.Table;
+import com.Bingo.SlotGame.Repository.FrequencyDAO;
 import com.Bingo.SlotGame.Repository.TableDAO;
 import com.Bingo.SlotGame.Storage.GameStorage;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,13 @@ import java.util.concurrent.*;
 
 @Service
 public class GameManager {
-    private Game game;
-    private Table table;
-    private Bet bet;
-    private GameStorage gameStorage;
-    private GameScheduler gameScheduler;
-    private GameService gameService;
-    private TableDAO tableDAO;
+    Game game;
+    Table table;
+    Bet bet;
+    GameStorage gameStorage;
+    GameScheduler gameScheduler;
+    GameService gameService;
+    TableDAO tableDAO;
     public GameManager(Game game,Table table, Bet bet,GameStorage gameStorage,GameScheduler gameScheduler,GameService gameService, TableDAO tableDAO) {
         this.game = game;
         this.table = table;
@@ -39,6 +40,7 @@ public class GameManager {
         gameStorage.setHorizontalMultiplier(0);
         gameStorage.clearOneToWin();
         gameScheduler.startCountdown();
+        gameStorage.resetBonusWinning();
         for(int r=0;r<3;r++){
             for(int e=0;e<3;e++){
                 if(r!=0){
@@ -57,7 +59,8 @@ public class GameManager {
 
     public Integer closeGame(){
         int winnings=0;
-        switch (bet.personWin) {
+
+        switch (bet.lineWin) {
             case 1: winnings += bet.getColumn1() * 9; break;
             case 2: winnings += bet.getColumn2() * 9; break;
             case 3: winnings += bet.getColumn3() * 9; break;
@@ -70,27 +73,7 @@ public class GameManager {
         tableDAO.insertTable(table);
         return winnings;
     }
-    public String GameNumber(int number){
-        table.insertQueue(number);
-        int winMoney=gameService.markNumber(number);
-        gameStorage.bonusWinning+=winMoney;
-        StringBuilder returnString=new StringBuilder();
-        if(winMoney>0){
-            returnString.append("Win Amount: "+winMoney+"\n");
-        }
-        if(gameStorage.getOneToWin().size()>0){
-            returnString.append("if you get these numbers you will win : ");
-        }
-        for(Integer num:gameStorage.getOneToWin()){
-            returnString.append(num+" ");
-        }
-        return returnString.toString();
-    }
-
-    public boolean getBetOpen(){
-        return gameStorage.isBetsOpen();
-    }
     public Integer getBonusWinning(){
-        return gameStorage.bonusWinning;
+        return gameStorage.getBonusWinning();
     }
 }

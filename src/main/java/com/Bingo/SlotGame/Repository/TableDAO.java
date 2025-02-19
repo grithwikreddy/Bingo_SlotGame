@@ -24,4 +24,6 @@ public class TableDAO {
     }
     private final RowMapper<Table> tableRowMapper = (rs, rowNum) ->
             new Table(rs.getInt("id"), rs.getInt("totalBet"), rs.getInt("netChange"), rs.getString("queue"));
+
+
 }

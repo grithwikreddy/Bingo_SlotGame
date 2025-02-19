@@ -8,8 +8,8 @@ import java.util.*;
 public class Game {
     int grid[][]={{1,15,21},{4,16,24},{7,19,27}};
     public Node[][] nodes=new Node[3][3];
-   public Map<Integer,Integer> mapVertical=new HashMap<>();
-   public Map<Integer,Integer> mapHorizontal=new HashMap<>();
+    public Map<Integer,Integer> mapVertical=new HashMap<>();
+    public Map<Integer,Integer> mapHorizontal=new HashMap<>();
     public Game(){
         for(int r=0;r<3;r++){
             for(int e=0;e<3;e++){

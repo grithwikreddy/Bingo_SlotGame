@@ -5,32 +5,12 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
-@Component  // Ensures Singleton in Spring context
+@Component
 public class GameStorage {
-    private Node[] nodeVertical = new Node[3];
-    private Node[] nodeHorizontal = new Node[3];
-    public Set<Integer> OneToWin = new HashSet<>();
-    private Integer verticalMultiplier = 0;
-    private Integer horizontalMultiplier = 0;
-    private boolean betsOpen = false;
-    public Integer bonusWinning = 0;
-
-    // Getters and Setters
-    public Node[] getNodeVertical() {
-        return nodeVertical;
-    }
-
-    public void setNodeVertical(Node[] nodeVertical) {
-        this.nodeVertical = nodeVertical;
-    }
-
-    public Node[] getNodeHorizontal() {
-        return nodeHorizontal;
-    }
-
-    public void setNodeHorizontal(Node[] nodeHorizontal) {
-        this.nodeHorizontal = nodeHorizontal;
-    }
+    Set<Integer> OneToWin = new HashSet<>();
+    Integer verticalMultiplier = 0;
+    Integer horizontalMultiplier = 0;
+    Integer bonusWinning = 0;
 
     public Set<Integer> getOneToWin() {
         return OneToWin;
@@ -39,7 +19,9 @@ public class GameStorage {
     public void addOneToWin(Integer num) {
         this.OneToWin.add(num);
     }
-
+    public void removeOneToWIn(Integer number){
+        OneToWin.remove(number);
+    }
     public void clearOneToWin() {
         this.OneToWin.clear();
     }
@@ -64,19 +46,14 @@ public class GameStorage {
         this.horizontalMultiplier = horizontalMultiplier;
     }
 
-    public boolean isBetsOpen() {
-        return betsOpen;
-    }
-
-    public void setBetsOpen(boolean betsOpen) {
-        this.betsOpen = betsOpen;
-    }
-
     public Integer getBonusWinning() {
         return bonusWinning;
     }
 
-    public void setBonusWinning(Integer bonusWinning) {
-        this.bonusWinning = bonusWinning;
+    public void addBonusWinning(Integer winning) {
+        bonusWinning += winning;
+    }
+    public void resetBonusWinning(){
+        bonusWinning=0;
     }
 }

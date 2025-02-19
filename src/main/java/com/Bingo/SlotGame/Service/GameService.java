@@ -4,15 +4,12 @@ import com.Bingo.SlotGame.Entity.Bet;
 import com.Bingo.SlotGame.Entity.Game;
 import com.Bingo.SlotGame.Entity.Node;
 import com.Bingo.SlotGame.Entity.Table;
+import com.Bingo.SlotGame.Repository.FrequencyDAO;
 import com.Bingo.SlotGame.Repository.TableDAO;
 import com.Bingo.SlotGame.Storage.GameStorage;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
 @Service
@@ -22,14 +19,16 @@ public class GameService {
     Table table;
     TableDAO tableDAO;
     GameStorage gameStorage;
+    FrequencyDAO frequencyDAO;
     private Node[] nodeVertical = new Node[3];
     private Node[] nodeHorizontal = new Node[3];
-    public GameService(Game game,Bet bet,TableDAO tableDAO,Table table,GameStorage gameStorage){
+    public GameService(Game game,Bet bet,TableDAO tableDAO,Table table,GameStorage gameStorage, FrequencyDAO frequencyDAO){
         this.game=game;
         this.bet=bet;
         this.table=table;
         this.tableDAO=tableDAO;
         this.gameStorage=gameStorage;
+        this.frequencyDAO=frequencyDAO;
     }
     public void setNodeVertical(int postion,Node node){
         nodeVertical[postion]=node;
@@ -42,25 +41,26 @@ public class GameService {
         if(currentPostion.getData() ==number){
             if(currentPostion.getVertical()==null){
                 if(bet.firstWin==true) {
-                    bet.personWin = verticalPostion + 1;
+                    bet.lineWin = verticalPostion + 1;
+                    frequencyDAO.increaceLineFrequency(bet.lineWin);
                     bet.firstWin=false;
                 }
                 gameStorage.incrementVerticalMultiplier();
-                gameStorage.OneToWin.remove(number);
+                gameStorage.removeOneToWIn(number);
                 nodeVertical[verticalPostion]=null;
                 return true;
             }
             else{
                 nodeVertical[verticalPostion]=currentPostion.getVertical();
                 if(nodeVertical[verticalPostion].getVertical()==null){
-                    gameStorage.OneToWin.add(nodeVertical[verticalPostion].getData());
+                    gameStorage.addOneToWin(nodeVertical[verticalPostion].getData());
                 }
             }
         }
         else if(currentPostion.getVertical().getData()==number){
             currentPostion.setVertical(currentPostion.getVertical().getVertical());
             if(currentPostion.getVertical()==null){
-                gameStorage.OneToWin.add(currentPostion.getData());
+                gameStorage.addOneToWin(currentPostion.getData());
             }
         }
         else{
@@ -73,25 +73,26 @@ public class GameService {
         if(currentPosstion.getData()==number){
             if(currentPosstion.getHorizontal()==null){
                 if(bet.firstWin==true){
-                    bet.personWin=horizontalPostion+4;
+                    bet.lineWin=horizontalPostion+4;
+                    frequencyDAO.increaceLineFrequency(bet.lineWin);
                     bet.firstWin=false;
                 }
                 gameStorage.incrementHorizontalMultiplier();
-                gameStorage.OneToWin.remove(number);
+                gameStorage.removeOneToWIn(number);
                 nodeHorizontal[horizontalPostion]=null;
                 return true;
             }
             else {
                 nodeHorizontal[horizontalPostion]=currentPosstion.getHorizontal();
                 if(nodeHorizontal[horizontalPostion].getHorizontal()==null){
-                    gameStorage.OneToWin.add(nodeHorizontal[horizontalPostion].getData());
+                    gameStorage.addOneToWin(nodeHorizontal[horizontalPostion].getData());
                 }
             }
         }
         else if(currentPosstion.getHorizontal().getData() ==number){
             currentPosstion.setHorizontal(currentPosstion.getHorizontal().getHorizontal());
             if(currentPosstion.getHorizontal()==null){
-                gameStorage.OneToWin.add(currentPosstion.getData());
+                gameStorage.addOneToWin(currentPosstion.getData());
             }
         }
         else {
@@ -100,6 +101,7 @@ public class GameService {
         return false;
     }
     public int markNumber(int number){
+        frequencyDAO.incrementFrequency(number);
         int horizontalPostion = game.mapHorizontal.get(number);
         int verticalPostion = game.mapVertical.get(number);
         ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -122,12 +124,26 @@ public class GameService {
             return 0;
         }
     }
+    public String gameNumber(int number){
+        table.insertQueue(number);
+        int winMoney=markNumber(number);
+        gameStorage.addBonusWinning(winMoney);
+        StringBuilder returnString=new StringBuilder();
+        if(winMoney>0){
+            returnString.append("Win Amount: "+winMoney+"\n");
+        }
+        if(gameStorage.getOneToWin().size()>0){
+            returnString.append("if you get these numbers you will win : ");
+        }
+        for(Integer oneTowin:gameStorage.getOneToWin()){
+            returnString.append(oneTowin+" ");
+        }
+        return returnString.toString();
+    }
     public List<Table> gameHistory(){
         return tableDAO.tableHistory();
     }
-    public boolean isBetOpen(){
-        return gameStorage.isBetsOpen();
-    }
+
 
 }
 

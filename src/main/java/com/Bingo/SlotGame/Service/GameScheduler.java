@@ -1,9 +1,7 @@
 package com.Bingo.SlotGame.Service;
 
 import com.Bingo.SlotGame.Storage.GameStorage;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,12 +9,14 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class GameScheduler {
     GameStorage gameStorage;
-    public GameScheduler(GameStorage gameStorage) {
+    GameStateService gameStateService;
+    public GameScheduler(GameStorage gameStorage,GameStateService gameStateService) {
         this.gameStorage=gameStorage;
+        this.gameStateService=gameStateService;
     }
 
     public void startCountdown() {
-        gameStorage.setBetsOpen(true);
+        gameStateService.updateToBetsOpen();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         long startTime = System.currentTimeMillis();
         Runnable task = new Runnable() {
@@ -25,7 +25,7 @@ public class GameScheduler {
             public void run() {
                 if (count == 0) {
                     scheduler.shutdown();
-                    gameStorage.setBetsOpen(false);
+                    gameStateService.updateToGame();
                 } else {
                     count--;
                     System.out.println("time left: "+count);

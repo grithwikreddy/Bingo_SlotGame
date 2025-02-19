@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bet {
     Table table;
-    public int personWin=0;
+    public int lineWin=0;
     public boolean firstWin=true;
     Integer Row1=0;
     Integer Row2=0;
