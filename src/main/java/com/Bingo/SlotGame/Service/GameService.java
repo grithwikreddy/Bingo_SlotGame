@@ -4,8 +4,8 @@ import com.Bingo.SlotGame.Entity.Bet;
 import com.Bingo.SlotGame.Entity.Game;
 import com.Bingo.SlotGame.Entity.Node;
 import com.Bingo.SlotGame.Entity.Table;
-import com.Bingo.SlotGame.Repository.FrequencyDAO;
-import com.Bingo.SlotGame.Repository.TableDAO;
+import com.Bingo.SlotGame.DAO.FrequencyDAO;
+import com.Bingo.SlotGame.DAO.TableDAO;
 import com.Bingo.SlotGame.Storage.GameStorage;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +15,14 @@ import java.util.concurrent.*;
 @Service
 public class GameService {
     Game game;
-    Bet bet;
     Table table;
     TableDAO tableDAO;
     GameStorage gameStorage;
     FrequencyDAO frequencyDAO;
     private Node[] nodeVertical = new Node[3];
     private Node[] nodeHorizontal = new Node[3];
-    public GameService(Game game,Bet bet,TableDAO tableDAO,Table table,GameStorage gameStorage, FrequencyDAO frequencyDAO){
+    public GameService(Game game,TableDAO tableDAO,Table table,GameStorage gameStorage, FrequencyDAO frequencyDAO){
         this.game=game;
-        this.bet=bet;
         this.table=table;
         this.tableDAO=tableDAO;
         this.gameStorage=gameStorage;
@@ -40,10 +38,10 @@ public class GameService {
         Node currentPostion=nodeVertical[verticalPostion];
         if(currentPostion.getData() ==number){
             if(currentPostion.getVertical()==null){
-                if(bet.firstWin==true) {
-                    bet.lineWin = verticalPostion + 1;
-                    frequencyDAO.increaceLineFrequency(bet.lineWin);
-                    bet.firstWin=false;
+                if(game.firstWin==true) {
+                    game.lineWin = verticalPostion + 1;
+                    frequencyDAO.increaceLineFrequency(game.lineWin);
+                    game.firstWin=false;
                 }
                 gameStorage.incrementVerticalMultiplier();
                 gameStorage.removeOneToWIn(number);
@@ -72,10 +70,10 @@ public class GameService {
         Node currentPosstion=nodeHorizontal[horizontalPostion];
         if(currentPosstion.getData()==number){
             if(currentPosstion.getHorizontal()==null){
-                if(bet.firstWin==true){
-                    bet.lineWin=horizontalPostion+4;
-                    frequencyDAO.increaceLineFrequency(bet.lineWin);
-                    bet.firstWin=false;
+                if(game.firstWin==true){
+                    game.lineWin=horizontalPostion+4;
+                    frequencyDAO.increaceLineFrequency(game.lineWin);
+                    game.firstWin=false;
                 }
                 gameStorage.incrementHorizontalMultiplier();
                 gameStorage.removeOneToWIn(number);

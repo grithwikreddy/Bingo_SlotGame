@@ -2,40 +2,40 @@ package com.Bingo.SlotGame.Service;
 
 import com.Bingo.SlotGame.Entity.Bet;
 import com.Bingo.SlotGame.Entity.Game;
-import com.Bingo.SlotGame.Entity.Node;
 import com.Bingo.SlotGame.Entity.Table;
-import com.Bingo.SlotGame.Repository.FrequencyDAO;
-import com.Bingo.SlotGame.Repository.TableDAO;
+import com.Bingo.SlotGame.DAO.TableDAO;
 import com.Bingo.SlotGame.Storage.GameStorage;
 import org.springframework.stereotype.Service;
+
 import java.util.HashSet;
-import java.util.concurrent.*;
 
 @Service
 public class GameManager {
     Game game;
     Table table;
-    Bet bet;
     GameStorage gameStorage;
     GameScheduler gameScheduler;
     GameService gameService;
     TableDAO tableDAO;
-    public GameManager(Game game,Table table, Bet bet,GameStorage gameStorage,GameScheduler gameScheduler,GameService gameService, TableDAO tableDAO) {
+    RedisService redisService;
+    FrequencyService frequencyService;
+    public GameManager(Game game,Table table,GameStorage gameStorage,GameScheduler gameScheduler,GameService gameService, TableDAO tableDAO,RedisService redisService,FrequencyService frequencyService) {
         this.game = game;
         this.table = table;
-        this.bet = bet;
         this.gameStorage = gameStorage;
         this.gameScheduler = gameScheduler;
         this.gameService = gameService;
         this.tableDAO=tableDAO;
+        this.redisService=redisService;
+        this.frequencyService=frequencyService;
     }
 
     public void newGame(){
+        game.players.clear();
         table.setNetChange(0);
         table.setTotalBet(0);
         table.resetNumberQueue();
-        bet.firstWin=true;
-        bet.resetBet();
+        game.firstWin=true;
         gameStorage.setVerticalMultiplier(0);
         gameStorage.setHorizontalMultiplier(0);
         gameStorage.clearOneToWin();
@@ -57,21 +57,45 @@ public class GameManager {
         }
     }
 
-    public Integer closeGame(){
-        int winnings=0;
+    public StringBuilder closeGame(){
+        int totalWinnings=0;
+        int gameId= frequencyService.getGameId();
+        StringBuilder stringBuilder=new StringBuilder();
+        for(String userId: game.players){
+            int winnings=0;
+            Bet userBet=redisService.getBetOfUser(userId+"Bet",gameId-1);
 
-        switch (bet.lineWin) {
-            case 1: winnings += bet.getColumn1() * 9; break;
-            case 2: winnings += bet.getColumn2() * 9; break;
-            case 3: winnings += bet.getColumn3() * 9; break;
-            case 4: winnings += bet.getRow1() * 9; break;
-            case 5: winnings += bet.getRow2() * 9; break;
-            case 6: winnings += bet.getRow3() * 9; break;
-            default: break;
+            System.out.println(userId.toString());
+            switch (game.lineWin) {
+                case 1:
+                    winnings += userBet.getColumn1() * 9;
+                    break;
+                case 2:
+                    winnings += userBet.getColumn2() * 9;
+                    break;
+                case 3:
+                    winnings += userBet.getColumn3() * 9;
+                    break;
+                case 4:
+                    winnings += userBet.getRow1() * 9;
+                    break;
+                case 5:
+                    winnings += userBet.getRow2() * 9;
+                    break;
+                case 6:
+                    winnings += userBet.getRow3() * 9;
+                    break;
+                default:
+                    break;
+            }
+            if(winnings>0)
+            stringBuilder.append(userId).append(" Win on the line :").append(winnings).append('\n');
+            totalWinnings+=winnings;
         }
-        table.setNetChange(table.getTotalBet()-winnings);
+        stringBuilder.append("Total Win on the line :").append(totalWinnings).append('\n');
+        table.setNetChange(table.getTotalBet()-totalWinnings);
         tableDAO.insertTable(table);
-        return winnings;
+        return stringBuilder;
     }
     public Integer getBonusWinning(){
         return gameStorage.getBonusWinning();

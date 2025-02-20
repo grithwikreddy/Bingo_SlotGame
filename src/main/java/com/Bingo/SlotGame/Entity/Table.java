@@ -45,6 +45,9 @@ public class Table {
     public void setTotalBet(int totalBet){
         this.totalBet=totalBet;
     }
+    public void addTotalBet(int bet){
+        this.totalBet+=bet;
+    }
     public Integer getId(){
         return id;
     }

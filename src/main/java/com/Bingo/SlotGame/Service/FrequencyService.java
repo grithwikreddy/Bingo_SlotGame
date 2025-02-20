@@ -1,6 +1,6 @@
 package com.Bingo.SlotGame.Service;
 
-import com.Bingo.SlotGame.Repository.FrequencyDAO;
+import com.Bingo.SlotGame.DAO.FrequencyDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +17,8 @@ public class FrequencyService {
     }
     public List<Map<String, Object>> getLineFrequencies(){
         return frequencyDAO.getAllLineFrequencies();
+    }
+    public Integer getGameId(){
+        return frequencyDAO.getGameId();
     }
 }

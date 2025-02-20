@@ -1,11 +1,13 @@
 package com.Bingo.SlotGame.Entity;
 
-import com.Bingo.SlotGame.Repository.TableDAO;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 @Component
 public class Game {
+    public int lineWin=0;
+    public boolean firstWin=true;
+    public Set<String> players=new HashSet<>();
     int grid[][]={{1,15,21},{4,16,24},{7,19,27}};
     public Node[][] nodes=new Node[3][3];
     public Map<Integer,Integer> mapVertical=new HashMap<>();

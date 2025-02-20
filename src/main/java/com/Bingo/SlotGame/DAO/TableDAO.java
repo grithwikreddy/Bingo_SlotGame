@@ -1,4 +1,4 @@
-package com.Bingo.SlotGame.Repository;
+package com.Bingo.SlotGame.DAO;
 
 import com.Bingo.SlotGame.Entity.Table;
 import org.springframework.jdbc.core.JdbcTemplate;

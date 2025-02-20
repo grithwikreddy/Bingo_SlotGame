@@ -1,4 +1,4 @@
-package com.Bingo.SlotGame.Repository;
+package com.Bingo.SlotGame.DAO;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,5 +32,9 @@ public class FrequencyDAO {
     public List<Map<String, Object>> getAllLineFrequencies() {
         String query = "SELECT line,(count/(select game_count from gamecount))*100 as LineFrequencyPercentage  FROM linefrequency";
         return jdbcTemplate.queryForList(query);
+    }
+    public Integer getGameId(){
+        String sql= "Select game_count from gamecount";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

@@ -1,37 +1,26 @@
 package com.Bingo.SlotGame.Entity;
 
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
 
-@Component
-public class Bet {
-    Table table;
-    public int lineWin=0;
-    public boolean firstWin=true;
-    Integer Row1=0;
-    Integer Row2=0;
-    Integer Row3=0;
-    Integer Column1=0;
-    Integer Column2=0;
-    Integer Column3=0;
-    public Bet(Table table){
-        this.table=table;
+public class Bet implements Serializable {
+    Integer Row1;
+    Integer Row2;
+    Integer Row3;
+    Integer Column1;
+    Integer Column2;
+    Integer Column3;
+
+
+    public Integer getTotalBet(){
+        return Row1+Row2+Row3+Column1+Column2+Column3;
     }
-    public void addBet(Integer Row1,Integer Row2,Integer Row3,Integer Column1,Integer Column2,Integer Column3){
-        table.updateTotalBet(Row1+Row2+Row3+Column1+Column2+Column3);
-        this.Row1+=Row1;
-        this.Row2+=Row2;
-        this.Row3+=Row3;
-        this.Column1+=Column1;
-        this.Column2+=Column2;
-        this.Column3+=Column3;
-    }
-    public void resetBet(){
-        Row1=0;
-        Row2=0;
-        Row3=0;
-        Column1=0;
-        Column2=0;
-        Column3=0;
+    public Bet(Integer row1, Integer row2, Integer row3, Integer column1, Integer column2, Integer column3){
+        Row1=row1;
+        Row2=row2;
+        Row3=row3;
+        Column1=column1;
+        Column2=column2;
+        Column3=column3;
     }
     public Integer getRow1(){
         return Row1;
@@ -50,5 +39,16 @@ public class Bet {
     }
     public Integer getColumn3(){
         return Column3;
+    }
+    @Override
+    public String toString() {
+        return "Bet{" +
+                "Row1=" + Row1 +
+                ", Row2=" + Row2 +
+                ", Row3=" + Row3 +
+                ", Column1=" + Column1 +
+                ", Column2=" + Column2 +
+                ", Column3=" + Column3 +
+                '}';
     }
 }
