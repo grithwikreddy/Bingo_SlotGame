@@ -29,9 +29,9 @@ Bingo Slot Game is a server-side application developed using Spring Boot. It man
 
 - The game is played on a **3x3 grid**:
   ```
-  1   4   7  
-  6   9   11  
-  8   15  21  
+  1   15   21  
+  4   16   24  
+  7   19   27  
   ```
 - Each turn, a **random number** from the matrix is selected.
 - If the number **is not marked**, it gets **marked**.
@@ -121,19 +121,28 @@ Ensure you have the following installed:
 - **Submit a bet:** `POST /Bingo/bet`
   - Parameters: `userId`, `Row1`, `Row2`, `Row3`, `Column1`, `Column2`, `Column3`
   - if it was in the BetsOpen Stage (10 Sec)
-    ![image](https://github.com/user-attachments/assets/ce1081c6-e92d-4eef-8d3c-1f9842acf665)
+    ![image](https://github.com/user-attachments/assets/296d8178-a5e1-49ae-ac3a-da9fce779d27)
+    ![image](https://github.com/user-attachments/assets/3fbd826a-b4fb-40bf-9f94-748da684f27c)
+
   - if bets Closed and stage went to InGame
     ![image](https://github.com/user-attachments/assets/3ed35eaa-bf76-455a-b761-4216e94a2a55)
 
 
 - **Submit a number for the game:** `POST /Bingo/number/{number}`
-  ![image](https://github.com/user-attachments/assets/79552f36-ad28-4f32-ad83-4e6e30f87e8f)
-  ![image](https://github.com/user-attachments/assets/be37e0cc-1743-49ea-af8c-2abd7faa377e)
-  ![image](https://github.com/user-attachments/assets/86af1cbd-8bbb-4781-96a4-821ec3ee1ef0)
-  ![image](https://github.com/user-attachments/assets/1439f2a2-f2e9-4f2e-bde7-0271a187f1fc)
-  ![image](https://github.com/user-attachments/assets/74c65079-f71e-48c7-b085-d8dca9b3f62a)
-  ![image](https://github.com/user-attachments/assets/8ba449bb-1467-44f0-8132-e2228c8c22ec)
-  ![image](https://github.com/user-attachments/assets/f5a0065f-ae28-44d8-94d2-55b5cb3d1ab4)
+  ![image](https://github.com/user-attachments/assets/30381307-7513-48b2-a36a-fbf877880735)
+  ![image](https://github.com/user-attachments/assets/e906526b-4eef-49c5-95e5-f7469e9b5070)
+  ![image](https://github.com/user-attachments/assets/376bcb3a-29c5-4721-bf9c-921b32245774)
+  ![image](https://github.com/user-attachments/assets/84ed5700-f2ae-46c9-a85f-133680ca1676)
+  ![image](https://github.com/user-attachments/assets/a86606d6-1f2c-4499-89d3-cf4ebd04bb8d)
+  ![image](https://github.com/user-attachments/assets/aa501fa1-67ae-41ac-a87c-decee369b40e)
+  ![image](https://github.com/user-attachments/assets/a403527b-893e-47e7-a9ba-89a2496ae828)
+
+
+
+
+
+
+
 
 ### Game Data
 
