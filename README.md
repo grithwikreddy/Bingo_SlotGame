@@ -115,23 +115,28 @@ Ensure you have the following installed:
 ### Game Management
 
 - **Start a new game:** `POST /Bingo/newGame`
+  
   ![image](https://github.com/user-attachments/assets/3852e288-5a14-4d7c-9e7c-58af74e33c38)
 
 - **Close an ongoing game:** `POST /Bingo/close`
+  
   ![image](https://github.com/user-attachments/assets/c078257c-9f33-4f65-9dad-81c976e0fa77)
 
 - **Submit a bet:** `POST /Bingo/bet`
   - Parameters: `userId`, `Row1`, `Row2`, `Row3`, `Column1`, `Column2`, `Column3`
   - if it was in the BetsOpen Stage (10 Sec)
+    
     ![image](https://github.com/user-attachments/assets/9270040a-a3f4-4d60-95ed-3dd459e759e1)
     ![image](https://github.com/user-attachments/assets/6c7603bd-286d-4633-b6c4-04b3385ec760)
     ![image](https://github.com/user-attachments/assets/ed61faea-1cff-450b-a965-a0a9a2be010d)
 
   - if bets Closed and stage went to InGame
+    
     ![image](https://github.com/user-attachments/assets/3ed35eaa-bf76-455a-b761-4216e94a2a55)
 
 
 - **Submit a number for the game:** `POST /Bingo/number/{number}`
+  
   ![image](https://github.com/user-attachments/assets/30381307-7513-48b2-a36a-fbf877880735)
   ![image](https://github.com/user-attachments/assets/e906526b-4eef-49c5-95e5-f7469e9b5070)
   ![image](https://github.com/user-attachments/assets/376bcb3a-29c5-4721-bf9c-921b32245774)
@@ -143,12 +148,15 @@ Ensure you have the following installed:
 ### Game Data
 
 - **Game history:** `GET /Bingo/history`
+  
   ![image](https://github.com/user-attachments/assets/d748dfcd-64cd-4ac8-b694-e97b5eeb0cce)
 
 - **Number frequency:** `GET /Bingo/frequency`
+  
   ![image](https://github.com/user-attachments/assets/d2d252da-69c2-4e13-8e84-510e5f5ee564)
 
 - **Line frequency:** `GET /Bingo/linefrequency`
+  
   ![image](https://github.com/user-attachments/assets/6fe92cf0-b322-467e-9445-1bc3cb81a0b3)
 
 
