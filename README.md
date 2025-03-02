@@ -55,8 +55,8 @@ Bingo Slot Game is a server-side application developed using Spring Boot. It man
 
 ### Scenario 2: Multiplier Bonus
 
-1. **Spin: "6"** → Marked ✅ *(No win yet)*
-2. **Spin: "9"** → Marked ✅ *(Still no full row)*
+1. **Spin: "16"** → Marked ✅ *(No win yet)*
+2. **Spin: "19"** → Marked ✅ *(Still no full row)*
 3. **Spin: "11"** → **Row completed!** → **Win: 11** 💰
 4. **Spin: "21"** → **Row + Column completed!** → **Multiplier applied!** → **Win: 42** 🎉
 
@@ -91,7 +91,7 @@ Ensure you have the following installed:
 
 1. Clone the repository:
    ```sh
-   git clone <repository-url>
+   git clone https://github.com/grithwikreddy/Bingo_SlotGame.git
    ```
 2. Navigate to the project directory:
    ```sh
@@ -118,11 +118,14 @@ Ensure you have the following installed:
   ![image](https://github.com/user-attachments/assets/3852e288-5a14-4d7c-9e7c-58af74e33c38)
 
 - **Close an ongoing game:** `POST /Bingo/close`
+  ![image](https://github.com/user-attachments/assets/c078257c-9f33-4f65-9dad-81c976e0fa77)
+
 - **Submit a bet:** `POST /Bingo/bet`
   - Parameters: `userId`, `Row1`, `Row2`, `Row3`, `Column1`, `Column2`, `Column3`
   - if it was in the BetsOpen Stage (10 Sec)
-    ![image](https://github.com/user-attachments/assets/296d8178-a5e1-49ae-ac3a-da9fce779d27)
-    ![image](https://github.com/user-attachments/assets/3fbd826a-b4fb-40bf-9f94-748da684f27c)
+    ![image](https://github.com/user-attachments/assets/9270040a-a3f4-4d60-95ed-3dd459e759e1)
+    ![image](https://github.com/user-attachments/assets/6c7603bd-286d-4633-b6c4-04b3385ec760)
+    ![image](https://github.com/user-attachments/assets/ed61faea-1cff-450b-a965-a0a9a2be010d)
 
   - if bets Closed and stage went to InGame
     ![image](https://github.com/user-attachments/assets/3ed35eaa-bf76-455a-b761-4216e94a2a55)
@@ -137,18 +140,17 @@ Ensure you have the following installed:
   ![image](https://github.com/user-attachments/assets/aa501fa1-67ae-41ac-a87c-decee369b40e)
   ![image](https://github.com/user-attachments/assets/a403527b-893e-47e7-a9ba-89a2496ae828)
 
-
-
-
-
-
-
-
 ### Game Data
 
 - **Game history:** `GET /Bingo/history`
+  ![image](https://github.com/user-attachments/assets/d748dfcd-64cd-4ac8-b694-e97b5eeb0cce)
+
 - **Number frequency:** `GET /Bingo/frequency`
+  ![image](https://github.com/user-attachments/assets/d2d252da-69c2-4e13-8e84-510e5f5ee564)
+
 - **Line frequency:** `GET /Bingo/linefrequency`
+  ![image](https://github.com/user-attachments/assets/6fe92cf0-b322-467e-9445-1bc3cb81a0b3)
+
 
 ## Database Structure
 
@@ -178,11 +180,4 @@ Bingo-SlotGame/
 │   │   ├── application.properties
 │── pom.xml
 ```
-
-## Future Enhancements
-
-- Implement WebSocket for real-time game updates.
-- Enhance UI with a frontend framework (React or Angular).
-- Improve database performance using indexing and query optimization.
-
 
